@@ -22,4 +22,3 @@ class Equipment(BaseModel):
             datetime: lambda v: v.isoformat()
         }
     )
-

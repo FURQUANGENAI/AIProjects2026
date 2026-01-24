@@ -8,11 +8,10 @@ import os
 
 from app.database import connect_to_mongo, close_mongo_connection
 from app.routers import equipment
-
+from app.routers import stream
 
 logger.remove()
 logger.add(sys.stdout, colorize=True, format="<green>{time:YYYY-MM-DD HH:mm:ss}</green> | <level>{level: <8}</level> | <cyan>{name}</cyan>:<cyan>{function}</cyan> - <level>{message}</level>")
-
 
 
 @asynccontextmanager
@@ -35,7 +34,7 @@ app = FastAPI(
 
 
 app.include_router(equipment.router, prefix="/api/v1/equipment", tags=["Equipment"])
-
+app.include_router(stream.router, prefix="/api/v1/stream", tags=["Stream"])
 
 @app.get("/")
 def read_root():
@@ -47,6 +46,7 @@ def health_check():
     return {"status": "healthy"}
 
 
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8001, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8002, reload=True)

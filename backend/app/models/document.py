@@ -13,8 +13,6 @@ class Document(BaseModel):
     storage_key: str
     uploaded_by: str
     description: Optional[str] = None
-
-    document_type: str = "knowledge"
     embedding_status: str = "pending"  # pending, processing, completed, failed
     embedding_error: Optional[dict] = None
     created_at: Optional[datetime] = None
@@ -27,4 +25,3 @@ class Document(BaseModel):
             ObjectId: str,
             datetime: lambda v: v.isoformat()
         }
-
