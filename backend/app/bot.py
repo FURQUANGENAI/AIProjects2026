@@ -49,6 +49,22 @@ from app.services.rag import RAGService
 from app.config import settings
 from datetime import datetime
 
+class TextCaptureProcessor(FrameProcessor):
+    async def process_frame(self, frame: Frame, direction: FrameDirection):
+        await super().process_frame(frame, direction)
+        if isinstance(frame, LLMMessagesAppendFrame):
+            for message in frame.messages:
+                if message.get("role") == "user":
+                    await self.push_frame(
+                        TranscriptionFrame(
+                            text=message.get('content'),
+                            user_id="agent",
+                            timestamp=datetime.now().isoformat(),
+                            language=Language.EN_IN
+                        )
+                    )
+        await self.push_frame(frame, direction)
+
 
 logger.info("✅ All components loaded successfully!")
 
