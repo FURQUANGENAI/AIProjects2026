@@ -14,7 +14,7 @@ import { getId } from "@/utils/chat";
 import BotMessageBubble from "./BotMessageBubble";
 import UserMessageBubble from "./UserMessageBubble";
 import usePipecatChatEvents from "@/hooks/pipecat-chat-events";
-import api from "../lib/api";
+import api from "../utils/api";
 
 interface RealTimeChatPanelProps {
   equipmentId?: string;
@@ -290,8 +290,8 @@ export default function RealTimeChatPanel({
                   disabled={disabled}
                   onClick={onClick}
                   className={`px-3 py-1.5 text-xs rounded-lg border transition-all ${isMicEnabled
-                      ? "text-green-400 border-green-800 bg-green-900/30"
-                      : "text-red-400 border-red-800 bg-red-900/30"
+                    ? "text-green-400 border-green-800 bg-green-900/30"
+                    : "text-red-400 border-red-800 bg-red-900/30"
                     } ${disabled ? "opacity-40 cursor-not-allowed" : ""}`}
                   title={isMicEnabled ? "Microphone enabled" : "Microphone disabled"}
                 >
@@ -323,17 +323,17 @@ export default function RealTimeChatPanel({
 
           {/* Status Badge */}
           <div className={`px-2.5 py-1 text-xs rounded-lg border ${isConnecting
-              ? "bg-yellow-900/30 text-yellow-500 border-yellow-800"
-              : isConnected
-                ? "bg-green-900/30 text-green-500 border-green-800"
-                : "bg-slate-800 text-slate-400 border-slate-700"
+            ? "bg-yellow-900/30 text-yellow-500 border-yellow-800"
+            : isConnected
+              ? "bg-green-900/30 text-green-500 border-green-800"
+              : "bg-slate-800 text-slate-400 border-slate-700"
             }`}>
             <div className="flex items-center gap-1.5">
               <div className={`h-1.5 w-1.5 rounded-full ${isConnecting
-                  ? "bg-yellow-500 animate-pulse"
-                  : isConnected
-                    ? "bg-green-500 animate-pulse"
-                    : "bg-slate-500"
+                ? "bg-yellow-500 animate-pulse"
+                : isConnected
+                  ? "bg-green-500 animate-pulse"
+                  : "bg-slate-500"
                 }`} />
               <span>
                 {isConnecting ? "Connecting..." : isConnected ? "Connected" : "Idle"}
