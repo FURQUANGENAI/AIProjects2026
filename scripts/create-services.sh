@@ -36,29 +36,45 @@ echo "----------------------------------------------------------------"
 echo "Creating ECS Services"
 echo "----------------------------------------------------------------"
 
+# Function to check if service exists
+service_exists() {
+    local cluster=$1
+    local service=$2
+    aws ecs describe-services --cluster "$cluster" --services "$service" \
+        --query "services[?status=='ACTIVE'].serviceName" --output text | grep -q "$service"
+}
+
 # Create Backend Service
 echo "Creating Backend Service: $BACKEND_SERVICE_NAME"
-aws ecs create-service \
-    --cluster "$CLUSTER_NAME" \
-    --service-name "$BACKEND_SERVICE_NAME" \
-    --task-definition "$BACKEND_TASK_FAMILY" \
-    --desired-count 1 \
-    --launch-type FARGATE \
-    --network-configuration "awsvpcConfiguration={subnets=[$PRIVATE_SUBNET_1,$PRIVATE_SUBNET_2],securityGroups=[$BACKEND_SG],assignPublicIp=DISABLED}" \
-    --load-balancers targetGroupArn=$BACKEND_TG_ARN,containerName=rag-voice-agent-backend-container,containerPort=8000 \
-    --region "$REGION"
+if service_exists "$CLUSTER_NAME" "$BACKEND_SERVICE_NAME"; then
+    echo "Service $BACKEND_SERVICE_NAME already exists. Skipping creation."
+else
+    aws ecs create-service \
+        --cluster "$CLUSTER_NAME" \
+        --service-name "$BACKEND_SERVICE_NAME" \
+        --task-definition "$BACKEND_TASK_FAMILY" \
+        --desired-count 1 \
+        --launch-type FARGATE \
+        --network-configuration "awsvpcConfiguration={subnets=[$PRIVATE_SUBNET_1,$PRIVATE_SUBNET_2],securityGroups=[$BACKEND_SG],assignPublicIp=DISABLED}" \
+        --load-balancers targetGroupArn=$BACKEND_TG_ARN,containerName=rag-voice-agent-backend-container,containerPort=8000 \
+        --region "$REGION"
+fi
 
 # Create Frontend Service
 echo "Creating Frontend Service: $FRONTEND_SERVICE_NAME"
-aws ecs create-service \
-    --cluster "$CLUSTER_NAME" \
-    --service-name "$FRONTEND_SERVICE_NAME" \
-    --task-definition "$FRONTEND_TASK_FAMILY" \
-    --desired-count 1 \
-    --launch-type FARGATE \
-    --network-configuration "awsvpcConfiguration={subnets=[$PRIVATE_SUBNET_1,$PRIVATE_SUBNET_2],securityGroups=[$FRONTEND_SG],assignPublicIp=DISABLED}" \
-    --load-balancers targetGroupArn=$FRONTEND_TG_ARN,containerName=rag-voice-agent-frontend-container,containerPort=80 \
-    --region "$REGION"
+if service_exists "$CLUSTER_NAME" "$FRONTEND_SERVICE_NAME"; then
+    echo "Service $FRONTEND_SERVICE_NAME already exists. Skipping creation."
+else
+    aws ecs create-service \
+        --cluster "$CLUSTER_NAME" \
+        --service-name "$FRONTEND_SERVICE_NAME" \
+        --task-definition "$FRONTEND_TASK_FAMILY" \
+        --desired-count 1 \
+        --launch-type FARGATE \
+        --network-configuration "awsvpcConfiguration={subnets=[$PRIVATE_SUBNET_1,$PRIVATE_SUBNET_2],securityGroups=[$FRONTEND_SG],assignPublicIp=DISABLED}" \
+        --load-balancers targetGroupArn=$FRONTEND_TG_ARN,containerName=rag-voice-agent-frontend-container,containerPort=80 \
+        --region "$REGION"
+fi
 
 echo "----------------------------------------------------------------"
 echo "Services Created. CI/CD Pipeline can now update them."
