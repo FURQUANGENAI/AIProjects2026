@@ -164,8 +164,8 @@ Add the following secrets (values from Step 2 outputs):
 | `AWS_ACCESS_KEY_ID` | Your AWS Access Key ID |
 | `AWS_SECRET_ACCESS_KEY` | Your AWS Secret Access Key |
 | `AWS_REGION` | `us-east-1` (or your chosen region) |
-| `ECR_REPOSITORY_BACKEND` | **BackendRepoUrl** (e.g., `rag-voice-agent-backend`) |
-| `ECR_REPOSITORY_FRONTEND` | **FrontendRepoUrl** (e.g., `rag-voice-agent-frontend`) |
+| `ECR_REPOSITORY_BACKEND` | **Repository Name** (e.g., `rag-voice-agent-backend`) **NOT the full URL** |
+| `ECR_REPOSITORY_FRONTEND` | **Repository Name** (e.g., `rag-voice-agent-frontend`) **NOT the full URL** |
 | `ECS_SERVICE_BACKEND` | `rag-voice-agent-backend-service` |
 | `ECS_SERVICE_FRONTEND` | `rag-voice-agent-frontend-service` |
 | `ECS_CLUSTER` | **ClusterName** (e.g., `rag-voice-agent-cluster`) |
