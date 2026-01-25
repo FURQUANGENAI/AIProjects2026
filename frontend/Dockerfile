@@ -23,6 +23,9 @@ ARG VITE_PIPECAT_ENDPOINT=/stream/connect
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 ENV VITE_PIPECAT_ENDPOINT=$VITE_PIPECAT_ENDPOINT
 
+# Debug: List files to verify context
+RUN ls -R /app/src
+
 # Build the application
 RUN npm run build
 
