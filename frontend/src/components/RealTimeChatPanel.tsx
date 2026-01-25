@@ -14,7 +14,7 @@ import { getId } from "@/utils/chat";
 import BotMessageBubble from "./BotMessageBubble";
 import UserMessageBubble from "./UserMessageBubble";
 import usePipecatChatEvents from "@/hooks/pipecat-chat-events";
-import api from "@/lib/api";
+import api from "../lib/api";
 
 interface RealTimeChatPanelProps {
   equipmentId?: string;
