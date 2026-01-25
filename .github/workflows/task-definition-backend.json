@@ -1,15 +1,17 @@
 {
   "family": "rag-voice-agent-backend-td",
   "networkMode": "awsvpc",
-  "requiresCompatibilities": ["FARGATE"],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
   "cpu": "512",
   "memory": "1024",
-  "executionRoleArn": "arn:aws:iam::YOUR_ACCOUNT_ID:role/rag-voice-agent-execution-role",
-  "taskRoleArn": "arn:aws:iam::YOUR_ACCOUNT_ID:role/rag-voice-agent-task-role",
+  "executionRoleArn": "arn:aws:iam::306570692493:role/rag-voice-agent-execution-role",
+  "taskRoleArn": "arn:aws:iam::306570692493:role/rag-voice-agent-task-role",
   "containerDefinitions": [
     {
       "name": "rag-voice-agent-backend-container",
-      "image": "YOUR_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/rag-voice-agent-backend:latest",
+      "image": "306570692493.dkr.ecr.us-east-1.amazonaws.com/rag-voice-agent-backend:latest",
       "portMappings": [
         {
           "containerPort": 8000,
@@ -25,19 +27,19 @@
       "secrets": [
         {
           "name": "MONGO_URL",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:YOUR_ACCOUNT_ID:secret:rag-voice-agent-secrets:MONGO_URL::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:306570692493:secret:rag-voice-agent-secrets:MONGO_URL::"
         },
         {
           "name": "DEEPGRAM_API_KEY",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:YOUR_ACCOUNT_ID:secret:rag-voice-agent-secrets:DEEPGRAM_API_KEY::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:306570692493:secret:rag-voice-agent-secrets:DEEPGRAM_API_KEY::"
         },
         {
           "name": "GROQ_API_KEY",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:YOUR_ACCOUNT_ID:secret:rag-voice-agent-secrets:GROQ_API_KEY::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:306570692493:secret:rag-voice-agent-secrets:GROQ_API_KEY::"
         },
         {
           "name": "GOOGLE_API_KEY",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:YOUR_ACCOUNT_ID:secret:rag-voice-agent-secrets:GOOGLE_API_KEY::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:306570692493:secret:rag-voice-agent-secrets:GOOGLE_API_KEY::"
         }
       ],
       "logConfiguration": {
@@ -49,7 +51,10 @@
         }
       },
       "healthCheck": {
-        "command": ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()\""],
+        "command": [
+          "CMD-SHELL",
+          "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()\""
+        ],
         "interval": 30,
         "timeout": 5,
         "retries": 3,

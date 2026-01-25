@@ -6,11 +6,11 @@
     ],
     "cpu": "256",
     "memory": "512",
-    "executionRoleArn": "arn:aws:iam::YOUR_ACCOUNT_ID:role/rag-voice-agent-execution-role",
+    "executionRoleArn": "arn:aws:iam::306570692493:role/rag-voice-agent-execution-role",
     "containerDefinitions": [
         {
             "name": "rag-voice-agent-frontend-container",
-            "image": "YOUR_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/rag-voice-agent-frontend:latest",
+            "image": "306570692493.dkr.ecr.us-east-1.amazonaws.com/rag-voice-agent-frontend:latest",
             "portMappings": [
                 {
                     "containerPort": 80,
