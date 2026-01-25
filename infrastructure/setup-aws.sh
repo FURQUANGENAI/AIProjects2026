@@ -31,6 +31,7 @@ else
     read -p "Enter Deepgram API Key: " DEEPGRAM_API_KEY
     read -p "Enter Groq API Key: " GROQ_API_KEY
     read -p "Enter Google API Key: " GOOGLE_API_KEY
+    read -p "Enter ElevenLabs API Key: " ELEVENLABS_API_KEY
 
     # Create JSON string for secret
     SECRET_STRING=$(jq -n \
@@ -38,7 +39,8 @@ else
                   --arg deepgram "$DEEPGRAM_API_KEY" \
                   --arg groq "$GROQ_API_KEY" \
                   --arg google "$GOOGLE_API_KEY" \
-                  '{MONGO_URL: $mongo, DEEPGRAM_API_KEY: $deepgram, GROQ_API_KEY: $groq, GOOGLE_API_KEY: $google}')
+                  --arg elevenlabs "$ELEVENLABS_API_KEY" \
+                  '{MONGO_URL: $mongo, DEEPGRAM_API_KEY: $deepgram, GROQ_API_KEY: $groq, GOOGLE_API_KEY: $google, ELEVENLABS_API_KEY: $elevenlabs}')
 
     aws secretsmanager create-secret \
         --name $SECRET_NAME \

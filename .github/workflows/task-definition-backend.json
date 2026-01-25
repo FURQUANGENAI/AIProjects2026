@@ -40,6 +40,10 @@
         {
           "name": "GOOGLE_API_KEY",
           "valueFrom": "arn:aws:secretsmanager:us-east-1:306570692493:secret:rag-voice-agent-secrets:GOOGLE_API_KEY::"
+        },
+        {
+          "name": "ELEVENLABS_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:306570692493:secret:rag-voice-agent-secrets:ELEVENLABS_API_KEY::"
         }
       ],
       "logConfiguration": {
