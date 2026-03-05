@@ -9,13 +9,14 @@ class Settings(BaseSettings):
     DEEPGRAM_API_KEY: str
     GROQ_API_KEY: str
     ELEVENLABS_API_KEY: str = ""
-    ELEVENLABS_VOICE_ID: str = "pNInz6obpgDQGcFmaJgB"
+    ELEVENLABS_VOICE_ID: str = "EXAVITQu4vr4xnSDxMaL"
 
     GROQ_MODEL: str = "openai/gpt-oss-20b"
     GROQ_BASE_URL: str = "https://api.groq.com/openai/v1"
 
     GOOGLE_API_KEY: str
-    EMBEDDING_MODEL: str = "models/text-embedding-004"
+    EMBEDDING_MODEL: str = "models/gemini-embedding-001"
+    EMBEDDING_DIMENSION: int = 768
     CHUNK_SIZE: int = 1000
     CHUNK_OVERLAP: int = 250
     VECTOR_INDEX_NAME: str = "vector_index"

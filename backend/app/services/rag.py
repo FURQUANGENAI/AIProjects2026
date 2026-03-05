@@ -44,40 +44,38 @@ class RAGService:
                 logger.error(f"Failed to generate query embedding: {e}")
                 raise
 
-            filters = {}
-
-            filters["is_disabled"] = {"$ne": True}
+            # None of the filter fields are indexed in the Atlas Vector Search index,
+            # so ALL filtering is done as a post-match after the ANN search.
+            post_filters: dict = {"is_disabled": {"$ne": True}} 
 
             if equipment_id:
                 try:
-                    filters["equipment_id"] = ObjectId(equipment_id)
-                    logger.debug(f"Added equipment_id filter: {equipment_id}")
+                    post_filters["equipment_id"] = ObjectId(equipment_id)
+                    logger.debug(f"Added equipment_id post-filter: {equipment_id}")
                 except Exception as e:
                     logger.warning(f"Invalid equipment_id '{equipment_id}'; skipping filter. Error: {e}")
 
             if tenant_id:
-                filters["tenant_id"] = tenant_id
-                logger.debug(f"Added tenant_id filter: {tenant_id}")
+                post_filters["tenant_id"] = tenant_id
+                logger.debug(f"Added tenant_id post-filter: {tenant_id}")
 
             if extra_filters:
-                filters.update(extra_filters)
-                logger.debug(f"Added extra filters: {extra_filters}")
+                post_filters.update(extra_filters)
+                logger.debug(f"Added extra post-filters: {extra_filters}")
 
-            vector_query = {
-                "$vectorSearch": {
-                    "index": self.index_name,
-                    "path": "embedding",
-                    "queryVector": query_embedding,
-                    "numCandidates": k * 5,
-                    "limit": k,
-                }
-            }
-
-            if filters:
-                vector_query["$vectorSearch"]["filter"] = filters
-
+            # Pure ANN search — no pre-filter. Over-fetch to ensure enough results survive post-filter.
             pipeline = [
-                vector_query,
+                {
+                    "$vectorSearch": {
+                        "index": self.index_name,
+                        "path": "embedding",
+                        "queryVector": query_embedding,
+                        "numCandidates": k * 20,
+                        "limit": k * 4,
+                    }
+                },
+                {"$match": post_filters},
+                {"$limit": k},
                 {
                     "$project": {
                         "_id": 1,

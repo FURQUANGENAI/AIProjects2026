@@ -26,8 +26,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Industrial MVP API",
-    description="MVP version of Industrial voice bot with RAG",
+    title="Voice Chat Bot Backend API",
+    description="MVP version of voice bot with RAG and LLM Integration",
     version="0.1.0",
     lifespan=lifespan,
 )
@@ -69,7 +69,7 @@ app.include_router(stream.router, prefix="/api/v1/stream", tags=["Stream"])
 
 @app.get("/")
 def read_root():
-    return {"message": "Industrial MVP API is running", "version": "0.1.0"}
+    return {"message": "Voice AI Chatbot Implementation  API is running", "version": "0.1.0"}
 
 
 @app.get("/health")
@@ -80,4 +80,4 @@ def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)

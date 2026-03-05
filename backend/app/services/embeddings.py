@@ -8,7 +8,8 @@ class EmbeddingService:
     def __init__(self):
         self.embeddings = GoogleGenerativeAIEmbeddings(
             model=settings.EMBEDDING_MODEL,
-            google_api_key=settings.GOOGLE_API_KEY
+            google_api_key=settings.GOOGLE_API_KEY,
+            output_dimensionality=settings.EMBEDDING_DIMENSION
         )
 
         self.text_splitter = RecursiveCharacterTextSplitter(

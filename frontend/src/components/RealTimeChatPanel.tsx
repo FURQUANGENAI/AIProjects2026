@@ -258,7 +258,7 @@ export default function RealTimeChatPanel({
             <Bot className="h-4 w-4 text-slate-200" />
           </div>
           <div className="flex flex-col gap-1">
-            <h3 className="text-lg font-semibold text-slate-100">Industrial Bot</h3>
+            <h3 className="text-lg font-semibold text-slate-100">Conversational AI</h3>
             <p className="text-xs text-slate-400">Live conversation</p>
           </div>
         </div>
